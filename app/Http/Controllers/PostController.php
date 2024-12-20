@@ -13,7 +13,7 @@ class PostController extends Controller
      */
     public function index()
     {
-        $posts = Post::paginate();
+        $posts = Post::latest()->paginate();
         return view('posts.index', compact('posts'));
     }
     /**
@@ -28,9 +28,9 @@ class PostController extends Controller
      */
     public function store(StorePostRequest $request)
     {
-        $post = new Post();
-        $post->title = $request->input('title');
-        $post->body = $request->input('body');
+        $post = new Post($request->validated());
+        // $post->title = $request->input('title');
+        // $post->body = $request->input('body');
         $post->save();
         return redirect()->route('posts.index');
     }
@@ -53,9 +53,13 @@ class PostController extends Controller
      */
     public function update(UpdatePostRequest $request, Post $post)
     {
-        $post->title = $request->input('title');
-        $post->body = $request->input('body');
-        $post->save();
+       // $post->title = $request->input('title');
+        // $post->body = $request->input('body');
+        
+        // $post->fill($request->validated());
+        // $post->save();
+
+        $post->update($request->validated());
         return redirect()->route('posts.index');
     }
     /**
