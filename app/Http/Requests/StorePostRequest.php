@@ -23,7 +23,9 @@ class StorePostRequest extends FormRequest
         return [
             'title' => ['required', 'max:255'],
             'body' => [],
-            'image' => 'image'
+            'image' => 'image',
+            'tags' => 'array',
+            'tags.*' => 'exists:tags,id'
         ];
     }
 }

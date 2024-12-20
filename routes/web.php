@@ -13,6 +13,8 @@ Route::get('/pages/page2', [PublicController::class, 'page2'])->name('page2');
 
 Route::get('/post/{post}', [PublicController::class, 'post'])->name('post');
 Route::get('/user/{user}', [PublicController::class, 'user'])->name('user');
+Route::get('/tag/{tag}', [PublicController::class, 'tag'])->name('tag');
+
 
 // Route::get('/admin/posts', [PostController::class, 'index'])->name('posts.index');
 // Route::get('/admin/posts/create', [PostController::class, 'create'])->name('posts.create');
@@ -39,6 +41,8 @@ Route::middleware('auth')->group(function () {
     Route::resource('/admin/posts', PostController::class);
 
     Route::post('/post/{post}/comment', [PublicController::class, 'comment'])->name('comment');
+
+    Route::post('/post/{post}/like', [PublicController::class, 'like'])->name('like');
 
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
