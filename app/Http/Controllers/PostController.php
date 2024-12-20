@@ -12,21 +12,22 @@ class PostController extends Controller
      */
     public function index()
     {
-        //
+        $posts = Post::paginate();
+        return view('posts.index', compact('posts'));
     }
     /**
      * Show the form for creating a new resource.
      */
     public function create()
     {
-        //
+        return view('posts.create');
     }
     /**
      * Store a newly created resource in storage.
      */
     public function store(StorePostRequest $request)
     {
-        //
+        dd($request->all());
     }
     /**
      * Display the specified resource.
