@@ -4,7 +4,7 @@
     <div class="w-2/3 mx-auto card bg-base-300">
         <div class="card-body">
             <h2 class="card-title">New Post</h2>
-            <form action="{{ route('posts.store') }}" method="POST">
+            <form action="{{ route('posts.store') }}" method="POST" enctype="multipart/form-data">
                 @csrf
                 <label class="w-full form-control">
                     <div class="label">
@@ -17,13 +17,15 @@
                         @enderror
                     </div>
                 </label>
-                <label class="form-control">
+                <label class="w-full form-control">
                     <div class="label">
-                        <span class="label-text">Content</span>
+                        <span class="label-text">Image</span>
                     </div>
-                    <textarea name="body" rows="12" class="textarea textarea-bordered @error('body') textarea-error @enderror" placeholder="Write something cool...">{{ old('body') }}</textarea>
+                    <input name="image" type="file" accept="image/*" class="w-full file-input file-input-bordered @error('image') file-input-error @enderror" />
                     <div class="label">
-                        {{-- <span class="label-text-alt">Your bio</span> --}}
+                        @error('image')
+                            <span class="label-text-alt text-error">{{ $message }}</span>
+                        @enderror
                     </div>
                 </label>
                 <input type="submit" class="btn btn-primary" value="Create">
