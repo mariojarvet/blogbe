@@ -46,6 +46,14 @@ class Post extends Model
             return $image;
         });
     }
+
+    public function user(){
+        return $this->belongsTo(User::class);
+    }
+    public function comments(){
+        return $this->hasMany(Comment::class);
+    }
+
     /**
      * The "booted" method of the model.
      */

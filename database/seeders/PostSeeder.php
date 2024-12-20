@@ -18,7 +18,7 @@ class PostSeeder extends Seeder
 
         $users = User::all();
         foreach($posts as $post){
-            $post->user_id = $users->random()->id;
+            $post->user()->associate($users->random());
             $post->save();
         }
     }
