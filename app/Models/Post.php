@@ -15,10 +15,12 @@ class Post extends Model
 {
     /** @use HasFactory<\Database\Factories\PostFactory> */
     use HasFactory, HasSlug;
-    
+
     protected $fillable = ['title', 'body', 'image'];
 
     protected $withCount = ['likes'];
+
+    protected $appends = ['snippet'];
 
     /**
      * Get the options for generating the slug.
@@ -47,7 +49,7 @@ class Post extends Model
             return explode("\n\n", $this->body)[0];
         });
     }
-    
+
     public function displayBody(): Attribute {
         return Attribute::get(function (){
             return nl2br($this->body);

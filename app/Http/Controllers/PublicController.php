@@ -18,8 +18,8 @@ class PublicController extends Controller
 
     public function index(){
         $posts = Post::with('user', 'images')->withCount('comments')->latest()->paginate(16);
-         //return view('index', compact('posts'));
-         return $posts;
+            if(request()->wantsJson() || collect(request()->route()->gatherMiddleware())->contains('api')){
+                return $posts;
 
         }
         return view('index', compact('posts'));
