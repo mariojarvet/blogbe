@@ -18,6 +18,9 @@ class PublicController extends Controller
 
     public function index(){
         $posts = Post::with('user')->withCount('comments')->latest()->simplePaginate(16);
+        if(request()->wantsJson()){
+            return $posts;
+        }
         return view('index', compact('posts'));
     }
 
@@ -75,5 +78,5 @@ class PublicController extends Controller
         }
         return redirect()->back();
     }
-    
+
 }
