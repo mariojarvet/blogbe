@@ -11,3 +11,4 @@
 
  Route::get('/posts', [PublicController::class, 'index']);
  Route::get('/posts/{post}', [PublicController::class, 'post']);
+ Route::apiResource('/admin/posts', PostController::class);

@@ -25,7 +25,10 @@ class PostController extends Controller
      */
     public function index()
     {
-        $posts = auth()->user()->posts()->latest()->paginate();
+        $posts = Auth::user()->posts()->with('user')->latest()->paginate();
+        if(request()->wantsJson() || collect(request()->route()->gatherMiddleware())->contains('api')){
+            return $posts;
+        }
         return view('posts.index', compact('posts'));
     }
     /**
@@ -46,8 +49,21 @@ class PostController extends Controller
         // $post->title = $request->input('title');
         // $post->body = $request->input('body');
         $post->save();
-        foreach($request->input('tags') as $tagId){
-            $post->tags()->attach($tagId);
+        if($request->has('images')){
+            foreach($request->file('images') as $file){
+                $image = new Image();
+                $image->path = $file->store('', ['disk' => 'public']);
+                $image->post()->associate($post);
+                $image->save();
+             }
+
+         }
+             if($request->has('tags')){
+             foreach($request->input('tags') as $tagId){
+                $post->tags()->attach($tagId);
+        }
+        if(request()->wantsJson() || collect(request()->route()->gatherMiddleware())->contains('api')){
+            return $post;
         }
         return redirect()->route('posts.index');
     }
@@ -73,7 +89,7 @@ class PostController extends Controller
     {
        // $post->title = $request->input('title');
         // $post->body = $request->input('body');
-        
+
         // $post->fill($request->validated());
         // $post->save();
 
