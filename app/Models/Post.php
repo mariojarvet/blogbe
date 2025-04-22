@@ -20,7 +20,7 @@ class Post extends Model
 
     protected $withCount = ['likes'];
 
-    protected $appends = ['snippet'];
+    protected $appends = ['snippet', 'auth_has_liked'];
 
     /**
      * Get the options for generating the slug.
@@ -86,7 +86,7 @@ class Post extends Model
         return $this->belongsTo(User::class);
     }
     public function comments(){
-        return $this->hasMany(Comment::class);
+        return $this->hasMany(Comment::class)->latest();
     }
 
     public function likes(){

@@ -13,7 +13,10 @@ class TagController extends Controller
      */
     public function index()
     {
-        //
+        $tags = Tag::all();
+        if(request()->wantsJson() || collect(request()->route()->gatherMiddleware())->contains('api')){
+            return $tags;
+        }
     }
     /**
      * Show the form for creating a new resource.
