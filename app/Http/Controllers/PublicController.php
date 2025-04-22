@@ -17,11 +17,13 @@ class PublicController extends Controller
 {
 
     public function index(){
-        $posts = Post::with('user')->withCount('comments')->latest()->simplePaginate(16);
+        $posts = Post::with('user', 'images')->withCount('comments')->latest()->paginate(16);
          //return view('index', compact('posts'));
          return $posts;
+
         }
         return view('index', compact('posts'));
+
     }
 
     public function page1(){
@@ -33,6 +35,9 @@ class PublicController extends Controller
     }
 
     public function post(Post $post){
+        if(request()->wantsJson() || collect(request()->route()->gatherMiddleware())->contains('api')){
+            return $post->load('user', 'images');
+        }
         return view('post', compact('post'));
     }
 
